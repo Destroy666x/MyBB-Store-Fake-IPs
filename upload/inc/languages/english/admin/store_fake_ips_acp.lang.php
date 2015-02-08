@@ -27,3 +27,4 @@ $l['store_fake_ips_confirm_title'] = 'Fake All IPs?';
 $l['store_fake_ips_done'] = 'The IPs have been successfully faked.';
 $l['store_fake_ips_wrong_ip'] = 'The IP you entered in settings is incorrect. Make sure to use a proper IPv6 or IPv4 address.';
 $l['store_fake_ips_wrong_version'] = 'You need to upgrade to at least MyBB 1.8.0 to use this plugin.';
+$l['store_fake_ips_dont_ban'] = "You can't ban this IP, otherwise everyone on the forum will be banned.";

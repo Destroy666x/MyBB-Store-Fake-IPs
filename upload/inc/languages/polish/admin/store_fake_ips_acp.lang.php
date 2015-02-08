@@ -27,3 +27,4 @@ $l['store_fake_ips_confirm_title'] = 'Sfałszować wszystkie IP?';
 $l['store_fake_ips_done'] = 'Pomyślnie słaszowano adresy IP.';
 $l['store_fake_ips_wrong_ip'] = 'IP podany w ustawieniach jest niepoprawny. Upewnij się czy wpisujesz adres IPv6 lub IPv4 zgodny ze specyfikacją.';
 $l['store_fake_ips_wrong_version'] = 'Musisz zaktualizować MyBB przynajmniej do 1.8.0 żeby używać tą modyfikację.';
+$l['store_fake_ips_dont_ban'] = 'Nie możesz zbanować tego adresu IP, gdyż zablokuje to dostęp do forum wszystkim użytkownikom.';

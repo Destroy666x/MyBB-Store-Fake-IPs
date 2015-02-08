@@ -108,7 +108,7 @@ function store_fake_ips_deactivate()
 {
 	global $db;
 	
-	$db->delete_query('settings', "name = 'store_fake_ips_ip')");
+	$db->delete_query('settings', "name = 'store_fake_ips_ip'");
 	$db->delete_query('settinggroups', "name = 'store_fake_ips'");
 	
 	rebuild_settings();
@@ -122,12 +122,12 @@ function store_fake_ips_change_current()
 	
 	if($mybb->get_input('action') == 'fake_current_ips' && $mybb->request_method == 'post')
 	{
-		global $lang, $page;
+		global $lang;
 		
 		$lang->load('store_fake_ips_acp');
 		
 		if($mybb->get_input('fake_confirm') == 'yes')
-			$page->output_confirm_action('index.php?module=config-plugins&action=fake_current_ips', $lang->store_fake_ips_confirm, $lang->store_fake_ips_confirm_title);
+			$GLOBALS['page']->output_confirm_action('index.php?module=config-plugins&action=fake_current_ips', $lang->store_fake_ips_confirm, $lang->store_fake_ips_confirm_title);
 		
 		if(!$mybb->get_input('no'))
 		{
@@ -176,4 +176,39 @@ function store_fake_ips_dont_ban()
 	
 	// Just to avoid banning everyone on the forum and make Purge Spammer still usable...
 	$user['regip'] = $user['lastip'] = '';
+}
+
+$plugins->add_hook('admin_config_banning_add', 'store_fake_ips_dont_ban_acp');
+
+function store_fake_ips_dont_ban_acp()
+{
+	global $mybb;
+	
+	if($mybb->get_input('type', MyBB::INPUT_INT) == 1)
+	{
+		// Borrowed from inc/functions.php to check ranges just like the is_banned_ip() function..
+		$unbanable = false;
+		$ip_range = fetch_ip_range($mybb->get_input('filter'));
+		$ip = my_inet_pton($mybb->settings['store_fake_ips_ip']);
+		if(is_array($ip_range))
+		{
+			if(strcmp($ip_range[0], $ip) <= 0 && strcmp($ip_range[1], $ip) >= 0)
+			{
+				$unbanable = true;
+			}
+		}
+		elseif($ip == $ip_range)
+		{
+			$unbanable = true;
+		}
+		
+		if($unbanable)
+		{
+			global $lang;
+			
+			$lang->load('store_fake_ips_acp');
+			
+			$GLOBALS['errors'][] = $lang->store_fake_ips_dont_ban;
+		}
+	}
 }
